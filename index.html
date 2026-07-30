@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blade Master - Service & Billing Management</title>
+    <meta name="description"
+        content="Digital Khata, Billing, and Customer Management System for Blade Service Business">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="dark-theme">
+
+    <!-- Auth View Container -->
+    <div id="authContainer" class="auth-container">
+        <div class="auth-card glass-panel">
+            <div class="auth-header">
+                <div class="brand-logo">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                    </svg>
+                </div>
+                <h2>Blade Master</h2>
+                <p>Khata & Billing Management System</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="input-group">
+                    <label for="loginUsername">Username / Mobile</label>
+                    <div class="input-wrapper">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <input type="text" id="loginUsername" placeholder="Enter username" required
+                            autocomplete="username">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="input-wrapper">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="loginPassword" placeholder="Enter password" required
+                            autocomplete="current-password">
+                    </div>
+                </div>
+                <div class="auth-actions">
+                    <button type="button" class="btn-text" id="btnShowForgot">Forgot Password?</button>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnLoginSubmit">
+                    <span>Sign In</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Forgot Password Step 1: Email -->
+            <form id="forgotForm" class="auth-form">
+                <p class="auth-subtitle">Enter your registered email address to receive a verification OTP code.</p>
+                <div class="input-group">
+                    <label for="forgotEmail">Email Address</label>
+                    <div class="input-wrapper">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <input type="email" id="forgotEmail" placeholder="owner@business.com" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnSendOtp">
+                    <span>Send Verification Code</span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-block btn-back-login">Back to Sign In</button>
+            </form>
+
+            <!-- Forgot Password Step 2: Verify & Reset -->
+            <form id="resetOtpForm" class="auth-form">
+                <p class="auth-subtitle">We sent a 6-digit OTP to your email. Enter the code and your new password.</p>
+                <div class="input-group">
+                    <label for="otpCode">6-Digit OTP</label>
+                    <div class="input-wrapper">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="text" id="otpCode" maxlength="6" placeholder="123456" required pattern="[0-9]{6}">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="newPassword">New Password</label>
+                    <div class="input-wrapper">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="newPassword" placeholder="Minimum 6 characters" minlength="6"
+                            required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnResetPassword">
+                    <span>Reset Password</span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-block btn-back-login">Back to Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="appContainer" class="app-container hidden">
+        <!-- Navigation Bar (Sidebar on Desktop / Fixed Bottom Bar on Mobile) -->
+        <nav class="app-nav">
+            <button class="nav-item active" data-target="viewDashboard">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-item" data-target="viewContacts">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>Contacts</span>
+            </button>
+
+            <button class="nav-item nav-fab" data-target="viewBilling" title="New Bill">
+                <div class="fab-circle">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </div>
+                <span>New Bill</span>
+            </button>
+
+            <button class="nav-item" data-action="modalPayment" title="Payment Entry">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                </svg>
+                <span>Payment Entry</span>
+            </button>
+
+            <!-- <button class="nav-item" data-target="viewMore">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="1.5"></circle>
+                    <circle cx="5" cy="12" r="1.5"></circle>
+                    <circle cx="19" cy="12" r="1.5"></circle>
+                </svg>
+                <span>More</span>
+            </button> -->
+
+            <button class="nav-item" data-target="viewMore">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+                <span>More</span>
+            </button>
+
+
+        </nav>
+
+        <!-- Top App Bar -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="app-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="app-title">Blade Service Manager</h1>
+                    <span class="user-badge" id="currentUserBadge">Owner</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="sync-status-btn" id="btnSyncStatus" title="Offline / Pending Sync Records">
+                    <span class="sync-indicator online" id="syncIndicator"></span>
+                    <span class="sync-text" id="syncText">Online</span>
+                    <span class="badge-count hidden" id="pendingSyncCount">0</span>
+                </button>
+                <button class="icon-btn" id="btnManualSync" title="Sync Pending Records Now">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </button>
+                <button class="icon-btn" id="btnAdminSettings" title="Admin Settings & Profile">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </button>
+                <button class="icon-btn danger" id="btnLogout" title="Sign Out">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace Area -->
+        <main class="app-main">
+            <!-- View: Dashboard -->
+            <section id="viewDashboard" class="app-view active">
+                <div class="welcome-card glass-panel">
+                    <div class="welcome-text">
+                        <h2 id="welcomeHeading">Good Day, Business Owner</h2>
+                        <p>Here is your daily khata summary and service performance.</p>
+                    </div>
+                    <div class="date-chip" id="todayDateDisplay">Today</div>
+                </div>
+
+                <!-- Summary Cards Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card accent-blue">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">Total Revenue</span>
+                            <h3 class="stat-value" id="statTotalRevenue">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="stat-card accent-orange">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">Total Expenses (Cost)</span>
+                            <h3 class="stat-value" id="statTotalExpenses">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="stat-card accent-green">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">Customer Business Profit</span>
+                            <h3 class="stat-value" id="statNetProfit">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="stat-card accent-purple">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">Total Udhar (Pending)</span>
+                            <h3 class="stat-value" id="statPendingAmount">₹0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Action Buttons -->
+                <div class="section-title">Quick Actions</div>
+                <div class="quick-actions-grid">
+                    <button class="action-card" id="btnQuickNewBill">
+                        <div class="action-icon bg-primary">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <line x1="9" y1="15" x2="15" y2="15"></line>
+                            </svg>
+                        </div>
+                        <span>Create New Bill</span>
+                    </button>
+
+                    <button class="action-card" id="btnQuickPayment">
+                        <div class="action-icon bg-success">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                        </div>
+                        <span>Payment Entry</span>
+                    </button>
+
+                    <button class="action-card" id="btnQuickAddCustomer">
+                        <div class="action-icon bg-info">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <line x1="20" y1="8" x2="20" y2="14"></line>
+                                <line x1="23" y1="11" x2="17" y2="11"></line>
+                            </svg>
+                        </div>
+                        <span>Add Customer</span>
+                    </button>
+
+                    <button class="action-card" id="btnQuickReports">
+                        <div class="action-icon bg-warning">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <span>Business Reports</span>
+                    </button>
+
+                    <button class="action-card" id="btnQuickRecordExpense" onclick="window.openAddExpenseModal()">
+                        <div class="action-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </div>
+                        <span>Record Expense</span>
+                    </button>
+                </div>
+
+                <!-- Service-wise Financial Performance -->
+                <div class="section-title">Service-wise Financial Performance</div>
+                <div class="stats-grid" style="margin-bottom: 1.5rem;">
+                    <div class="stat-card accent-blue">
+                        <div class="stat-content">
+                            <span class="stat-label">Grinding Service</span>
+                            <h4 style="margin: 0.25rem 0; font-size: 1.1rem; color: var(--text-color);">Revenue: <span
+                                    id="dashGrindRev">₹0</span></h4>
+                            <span style="font-size: 0.85rem; color: var(--success-color);">Net Profit: <strong
+                                    id="dashGrindProfit">₹0</strong></span>
+                        </div>
+                    </div>
+                    <div class="stat-card accent-orange">
+                        <div class="stat-content">
+                            <span class="stat-label">Welding Service (Outsourced)</span>
+                            <h4 style="margin: 0.25rem 0; font-size: 1.1rem; color: var(--text-color);">Rev: <span
+                                    id="dashWeldRev">₹0</span> | Exp: <span id="dashWeldExp"
+                                    class="text-warning">₹0</span></h4>
+                            <span style="font-size: 0.85rem; color: var(--success-color);">Actual Profit: <strong
+                                    id="dashWeldProfit">₹0</strong></span>
+                        </div>
+                    </div>
+                    <div class="stat-card accent-purple">
+                        <div class="stat-content">
+                            <span class="stat-label">New Blade Selling</span>
+                            <h4 style="margin: 0.25rem 0; font-size: 1.1rem; color: var(--text-color);">Sales: <span
+                                    id="dashBladeRev">₹0</span> | Cost: <span id="dashBladeExp"
+                                    class="text-warning">₹0</span></h4>
+                            <span style="font-size: 0.85rem; color: var(--success-color);">Net Profit: <strong
+                                    id="dashBladeProfit">₹0</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity List -->
+                <div class="section-header">
+                    <h3 class="section-title">Recent Transactions</h3>
+                    <button class="btn-text" id="btnViewAllLedger">View All</button>
+                </div>
+                <div class="activity-list glass-panel" id="recentActivityList">
+                    <!-- Activity Items dynamically injected -->
+                    <div class="empty-state">No recent transactions.</div>
+                </div>
+            </section>
+
+            <!-- View: Contacts (Customers & Vendors) -->
+            <section id="viewContacts" class="app-view">
+                <div class="reports-tabs" style="margin-bottom: 0.5rem;" id="contactsSubTabs">
+                    <button class="report-tab active" id="tabContactsCust"
+                        onclick="window.switchContactsTab('customers')">👥 Customers</button>
+                    <button class="report-tab" id="tabContactsVend" onclick="window.switchContactsTab('vendors')">🏭
+                        Vendors</button>
+                </div>
+
+                <!-- Sub Panel: Customers -->
+                <div id="contactsCustomersPanel" class="contacts-panel active"
+                    style="display: flex; flex-direction: column; gap: 1.25rem;">
+                    <div class="view-header">
+                        <h2>Customer Management</h2>
+                        <button class="btn btn-primary" id="btnAddCustomerModal">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            <span>Add Customer</span>
+                        </button>
+                    </div>
+
+                    <div class="search-bar-wrapper">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="customerSearchInput"
+                            placeholder="Search customer by name or mobile number...">
+                    </div>
+
+                    <div class="customer-cards-list" id="customerList">
+                        <!-- Customer cards inserted dynamically -->
+                    </div>
+                </div>
+
+                <!-- Sub Panel: Vendors -->
+                <div id="contactsVendorsPanel" class="contacts-panel hidden"
+                    style="display: flex; flex-direction: column; gap: 1.25rem;">
+                    <div class="view-header">
+                        <h2>Vendor Management</h2>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <!-- <button class="btn btn-secondary" id="btnOpenVendorTxnModal">
+                                <span>+ Purchase / Settle Txn</span>
+                            </button> -->
+                            <button class="btn btn-primary" id="btnOpenAddVendorModal">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>Add Vendor</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Vendor Category Filter Tabs -->
+                    <div class="reports-tabs" style="margin-bottom: 0.25rem;" id="vendorCategoryTabs">
+                        <button class="report-tab active" data-category="ALL">All Vendors</button>
+                        <button class="report-tab" data-category="WELDING">Welding Vendors</button>
+                        <button class="report-tab" data-category="BLADE_SUPPLIER">Blade Suppliers</button>
+                    </div>
+
+                    <div class="search-bar-wrapper">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="vendorSearchInput"
+                            placeholder="Search vendor by name, mobile, address...">
+                    </div>
+
+                    <div class="customer-cards-list" id="vendorList">
+                        <!-- Vendor cards inserted dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: More Page Menu -->
+            <section id="viewMore" class="app-view">
+                <div class="view-header">
+                    <h2>More Features & Menu</h2>
+                </div>
+
+                <div class="quick-actions-grid"
+                    style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
+                    <button class="action-card glass-panel"
+                        style="padding: 1.5rem; text-align: left; align-items: flex-start;"
+                        onclick="window.appRouter.navigateTo('viewLedger')">
+                        <div class="action-icon bg-primary" style="margin-bottom: 0.5rem;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">Ledger</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); font-weight: normal;">View complete
+                            credit / debit khata statements for all customers.</p>
+                    </button>
+
+                    <button class="action-card glass-panel"
+                        style="padding: 1.5rem; text-align: left; align-items: flex-start;"
+                        onclick="window.appRouter.navigateTo('viewExpenses')">
+                        <div class="action-icon"
+                            style="background: linear-gradient(135deg, #ef4444, #dc2626); margin-bottom: 0.5rem;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                <line x1="2" y1="10" x2="22" y2="10"></line>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">Expenses</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); font-weight: normal;">Manage shop rent,
+                            electricity, tools & operating expenses.</p>
+                    </button>
+
+                    <button class="action-card glass-panel"
+                        style="padding: 1.5rem; text-align: left; align-items: flex-start;"
+                        onclick="window.appRouter.navigateTo('viewProfitLoss')">
+                        <div class="action-icon bg-success" style="margin-bottom: 0.5rem;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">Profit / Loss</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); font-weight: normal;">Complete business
+                            profitability breakdown and net analysis.</p>
+                    </button>
+
+                    <button class="action-card glass-panel"
+                        style="padding: 1.5rem; text-align: left; align-items: flex-start;"
+                        onclick="window.appRouter.navigateTo('viewReports')">
+                        <div class="action-icon bg-warning" style="margin-bottom: 0.5rem;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">Reports</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); font-weight: normal;">Daily, monthly,
+                            yearly & vendor analytical statements.</p>
+                    </button>
+                </div>
+            </section>
+
+            <!-- View: Profit / Loss Page -->
+            <section id="viewProfitLoss" class="app-view">
+                <div class="view-header">
+                    <div>
+                        <h2>Profit & Loss Analysis</h2>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Complete Business
+                            Profitability Statement</p>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="window.appRouter.navigateTo('viewMore')">
+                        ← Back to More
+                    </button>
+                </div>
+
+                <!-- Final Profit / Loss Banner Card -->
+                <div class="glass-panel"
+                    style="padding: 1.5rem; background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95)); border-left: 6px solid var(--primary);"
+                    id="plBannerCard">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <span
+                                style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Final
+                                Business Profit / Loss</span>
+                            <h2 style="font-size: 2.2rem; margin-top: 0.25rem;" id="plFinalNetProfit">₹0</h2>
+                        </div>
+                        <div id="plStatusChip" class="badge" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                            Calculating...</div>
+                    </div>
+                </div>
+
+                <!-- Detailed Financial Breakdown Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;">
+
+                    <!-- Part A: Customer Business Performance -->
+                    <div class="glass-panel" style="padding: 1.5rem;">
+                        <div
+                            style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                            <div class="stat-icon"
+                                style="width:36px; height:36px; background: rgba(59, 130, 246, 0.2); color: var(--primary);">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <h3 style="font-size: 1.1rem; color: var(--text-main);">1. Customer Business</h3>
+                        </div>
+
+                        <div class="calc-row" style="margin-bottom: 0.75rem;">
+                            <span style="color: var(--text-muted);">Customer Revenue:</span>
+                            <strong class="text-accent" id="plCustomerRevenue" style="font-size: 1.1rem;">+ ₹0</strong>
+                        </div>
+
+                        <div
+                            style="padding-left: 0.75rem; border-left: 2px solid var(--border-color); margin-bottom: 0.75rem; font-size: 0.85rem;">
+                            <div class="calc-row" style="margin-bottom: 0.3rem;">
+                                <span style="color: var(--text-muted);">Grinding Service Income:</span>
+                                <span id="plGrindingRev">₹0</span>
+                            </div>
+                            <div class="calc-row" style="margin-bottom: 0.3rem;">
+                                <span style="color: var(--text-muted);">Welding Service Income:</span>
+                                <span id="plWeldingRev">₹0</span>
+                            </div>
+                            <div class="calc-row">
+                                <span style="color: var(--text-muted);">New Blade Sales:</span>
+                                <span id="plBladeRev">₹0</span>
+                            </div>
+                        </div>
+
+                        <div class="calc-row" style="margin-bottom: 0.75rem;">
+                            <span style="color: var(--text-muted);">(-) Vendor Expenses:</span>
+                            <strong class="text-warning" id="plVendorExpenses" style="font-size: 1.1rem;">- ₹0</strong>
+                        </div>
+
+                        <div
+                            style="padding-left: 0.75rem; border-left: 2px solid var(--border-color); margin-bottom: 1rem; font-size: 0.85rem;">
+                            <div class="calc-row" style="margin-bottom: 0.3rem;">
+                                <span style="color: var(--text-muted);">Welding Partner Expenses:</span>
+                                <span id="plWeldingExp">₹0</span>
+                            </div>
+                            <div class="calc-row">
+                                <span style="color: var(--text-muted);">Blade Purchase Expenses:</span>
+                                <span id="plBladeExp">₹0</span>
+                            </div>
+                        </div>
+
+                        <div class="calc-row grand-total"
+                            style="background: rgba(16, 185, 129, 0.08); padding: 0.75rem; border-radius: var(--radius-sm);">
+                            <span>Customer Business Profit:</span>
+                            <strong class="text-success" id="plCustomerProfit" style="font-size: 1.2rem;">₹0</strong>
+                        </div>
+                    </div>
+
+                    <!-- Part B: Business Operating Expenses -->
+                    <div class="glass-panel" style="padding: 1.5rem;">
+                        <div
+                            style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                            <div class="stat-icon"
+                                style="width:36px; height:36px; background: rgba(239, 68, 68, 0.2); color: var(--danger);">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                                </svg>
+                            </div>
+                            <h3 style="font-size: 1.1rem; color: var(--text-main);">2. Operating Expenses</h3>
+                        </div>
+
+                        <div class="calc-row" style="margin-bottom: 0.75rem;">
+                            <span style="color: var(--text-muted);">(-) Shop Rent:</span>
+                            <strong style="color: var(--danger);" id="plExpRent">- ₹0</strong>
+                        </div>
+
+                        <div class="calc-row" style="margin-bottom: 0.75rem;">
+                            <span style="color: var(--text-muted);">(-) Electricity Bill:</span>
+                            <strong style="color: var(--danger);" id="plExpElectricity">- ₹0</strong>
+                        </div>
+
+                        <div class="calc-row" style="margin-bottom: 0.75rem;">
+                            <span style="color: var(--text-muted);">(-) Tool Purchase:</span>
+                            <strong style="color: var(--danger);" id="plExpTools">- ₹0</strong>
+                        </div>
+
+                        <div class="calc-row" style="margin-bottom: 1rem;">
+                            <span style="color: var(--text-muted);">(-) Other Expenses:</span>
+                            <strong style="color: var(--danger);" id="plExpOther">- ₹0</strong>
+                        </div>
+
+                        <div class="calc-row grand-total"
+                            style="background: rgba(239, 68, 68, 0.08); padding: 0.75rem; border-radius: var(--radius-sm); margin-top: 2rem;">
+                            <span>Total Operating Expenses:</span>
+                            <strong style="color: var(--danger);" id="plTotalOperatingExp" style="font-size: 1.2rem;">-
+                                ₹0</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Business Expenses Management -->
+            <section id="viewExpenses" class="app-view">
+                <div class="view-header">
+                    <h2>Business Expense Management</h2>
+                    <button class="btn btn-primary" id="btnOpenAddExpenseModal" onclick="window.openAddExpenseModal()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>+ Record Expense</span>
+                    </button>
+                </div>
+
+                <!-- Expenses Summary Cards -->
+                <div class="stats-grid" style="margin-bottom: 1.25rem;">
+                    <div class="stat-card accent-orange">
+                        <div class="stat-content">
+                            <span class="stat-label">Total Business Expenses</span>
+                            <h3 class="stat-value" id="expSummaryTotal">₹0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card accent-blue">
+                        <div class="stat-content">
+                            <span class="stat-label">Shop Rent</span>
+                            <h3 class="stat-value" id="expSummaryRent">₹0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card accent-green">
+                        <div class="stat-content">
+                            <span class="stat-label">Electricity Bill</span>
+                            <h3 class="stat-value" id="expSummaryElectricity">₹0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card accent-purple">
+                        <div class="stat-content">
+                            <span class="stat-label">Tools & Other</span>
+                            <h3 class="stat-value" id="expSummaryToolsOther">₹0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expense Category Filter Tabs -->
+                <div class="reports-tabs" style="margin-bottom: 1rem;" id="expenseCategoryTabs">
+                    <button class="report-tab active" data-category="ALL">All Expenses</button>
+                    <button class="report-tab" data-category="Shop Rent">🏠 Shop Rent</button>
+                    <button class="report-tab" data-category="Electricity Bill">⚡ Electricity Bill</button>
+                    <button class="report-tab" data-category="Tool Purchase">🛠 Tool Purchase</button>
+                    <button class="report-tab" data-category="Other">📝 Other</button>
+                </div>
+
+                <div class="search-bar-wrapper">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="expenseSearchInput"
+                        placeholder="Search business expense by category, description, date...">
+                </div>
+
+                <div class="table-responsive glass-panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Description / Notes</th>
+                                <th>Sync Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expensesTableBody">
+                            <tr>
+                                <td colspan="6" class="empty-state">No business expenses recorded. <button type="button"
+                                        class="btn btn-primary btn-sm" onclick="window.openAddExpenseModal()"
+                                        style="margin-left: 8px;">+ Record Expense</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- View: Billing -->
+            <section id="viewBilling" class="app-view">
+                <div class="view-header">
+                    <h2>Create Service Bill</h2>
+                </div>
+
+                <form id="billForm" class="glass-panel form-card">
+                    <!-- Customer Selector -->
+                    <div class="form-section">
+                        <label class="form-label" for="billCustomerSelect">Select Customer *</label>
+                        <select id="billCustomerSelect" class="form-control" required>
+                            <option value="">-- Select Customer --</option>
+                        </select>
+                    </div>
+
+                    <!-- Customer Balance Callout -->
+                    <div class="balance-summary-box hidden" id="customerBalanceBox">
+                        <div class="balance-item">
+                            <span>Previous Balance (Udhar):</span>
+                            <strong id="billPrevBalanceDisplay">₹0</strong>
+                        </div>
+                    </div>
+
+                    <!-- Service Details Section -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Blade Services</h4>
+
+                        <!-- Grinding Service -->
+                        <div class="service-item-row">
+                            <div class="service-name">
+                                <span class="service-badge grinding">Grinding</span>
+                                <strong>Grinding Blade</strong>
+                            </div>
+                            <div class="service-inputs">
+                                <input type="number" id="grindQty" placeholder="Qty" min="0" value="0"
+                                    class="input-qty">
+                                <span>× ₹</span>
+                                <input type="number" id="grindRate" placeholder="Rate" min="0" value="100"
+                                    class="input-rate">
+                                <span>= ₹</span>
+                                <input type="number" id="grindTotal" class="input-total" readonly value="0">
+                            </div>
+                        </div>
+
+                        <!-- Welding Service -->
+                        <div class="service-item-row" style="flex-wrap: wrap;">
+                            <div class="service-name">
+                                <span class="service-badge welding">Welding</span>
+                                <strong>Welding Blade</strong>
+                            </div>
+                            <div class="service-inputs">
+                                <input type="number" id="weldQty" placeholder="Qty" min="0" value="0" class="input-qty">
+                                <span>× ₹</span>
+                                <input type="number" id="weldRate" placeholder="Rate" min="0" value="50"
+                                    class="input-rate" title="Price charged to customer">
+                                <span>= ₹</span>
+                                <input type="number" id="weldTotal" class="input-total" readonly value="0">
+                            </div>
+                            <div
+                                style="width: 100%; display: flex; gap: 0.5rem; margin-top: 0.5rem; background: rgba(245, 158, 11, 0.08); padding: 0.5rem; border-radius: 6px; align-items: center; font-size: 0.85rem;">
+                                <span
+                                    style="font-weight: 500; color: var(--warning-color); white-space: nowrap;">Welding
+                                    Partner:</span>
+                                <select id="billWeldingVendorSelect" class="form-control"
+                                    style="flex: 1; padding: 0.25rem 0.5rem; font-size: 0.85rem;">
+                                    <option value="">-- Select Welding Partner --</option>
+                                </select>
+                                <span style="font-weight: 500; white-space: nowrap;">Cost Rate: ₹</span>
+                                <input type="number" id="billWeldingCostRate" class="form-control"
+                                    style="width: 80px; padding: 0.25rem 0.5rem; font-size: 0.85rem;" placeholder="Cost"
+                                    min="0" value="40" title="Outsourced cost charged by partner per blade">
+                            </div>
+                        </div>
+
+                        <!-- New Blade Service -->
+                        <div class="service-item-row">
+                            <div class="service-name">
+                                <span class="service-badge newblade">New</span>
+                                <strong>New Blade Sale</strong>
+                            </div>
+                            <div class="service-inputs">
+                                <input type="text" id="newBladeType" placeholder="Type (e.g. 14 inch)"
+                                    class="input-type">
+                                <input type="number" id="newBladeQty" placeholder="Qty" min="0" value="0"
+                                    class="input-qty">
+                                <span>× ₹</span>
+                                <input type="number" id="newBladeRate" placeholder="Rate" min="0" value="300"
+                                    class="input-rate">
+                                <span>= ₹</span>
+                                <input type="number" id="newBladeTotal" class="input-total" readonly value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Received Options in Bill -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Payment Settlement</h4>
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label for="billPaymentReceived">Amount Received Today (₹)</label>
+                                <input type="number" id="billPaymentReceived" min="0" placeholder="0"
+                                    class="form-control">
+                            </div>
+                            <div class="input-group">
+                                <label for="billPaymentMode">Payment Mode</label>
+                                <select id="billPaymentMode" class="form-control">
+                                    <option value="Cash">Cash</option>
+                                    <option value="UPI">Online / UPI</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bill Calculation Overview -->
+                    <div class="bill-calculation-summary">
+                        <div class="calc-row">
+                            <span>Previous Balance:</span>
+                            <span id="calcPrevBal">₹0</span>
+                        </div>
+                        <div class="calc-row">
+                            <span>Today's Total Bill:</span>
+                            <span id="calcTodayBill" class="text-accent">+ ₹0</span>
+                        </div>
+                        <div class="calc-row">
+                            <span>Payment Received:</span>
+                            <span id="calcPaymentRec" class="text-success">- ₹0</span>
+                        </div>
+                        <div class="calc-row grand-total">
+                            <span>Final Net Balance:</span>
+                            <strong id="calcFinalBal">₹0</strong>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnSaveBill">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        <span>Generate & Save Bill</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- View: Ledger -->
+            <section id="viewLedger" class="app-view">
+                <div class="view-header">
+                    <h2>Credit / Debit Ledger</h2>
+                    <button class="btn btn-success" id="btnOpenPaymentModal">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                        <span>Payment Entry</span>
+                    </button>
+                </div>
+
+                <div class="filter-bar">
+                    <select id="ledgerCustomerFilter" class="form-control">
+                        <option value="">All Customers</option>
+                    </select>
+                </div>
+
+                <div class="table-responsive glass-panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Description / ID</th>
+                                <th>Debit (+)</th>
+                                <th>Credit (-)</th>
+                                <th>Balance</th>
+                                <th>Sync</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ledgerTableBody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- View: Reports -->
+            <section id="viewReports" class="app-view">
+                <div class="view-header">
+                    <h2>Business Reports & Analytics</h2>
+                    <button class="btn btn-secondary btn-sm" id="btnPrintReport">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        <span>Print Report</span>
+                    </button>
+                </div>
+
+                <div class="reports-tabs">
+                    <button class="report-tab active" data-report="daily">Daily Report</button>
+                    <button class="report-tab" data-report="monthly">Monthly Report</button>
+                    <button class="report-tab" data-report="yearly">Yearly Report</button>
+                    <button class="report-tab" data-report="custom">Custom Date Range</button>
+                    <button class="report-tab" data-report="customer">Customer Report</button>
+                    <button class="report-tab" data-report="vendor">Vendor Report</button>
+                </div>
+
+                <div class="report-content-container glass-panel">
+                    <!-- 1. Daily Report Panel -->
+                    <div id="reportDaily" class="report-panel active">
+                        <div class="report-header-flex">
+                            <h3>Daily Report</h3>
+                            <div class="report-date-selector">
+                                <label for="reportDailyDate">Select Date:</label>
+                                <input type="date" id="reportDailyDate" class="form-control date-picker-sm">
+                            </div>
+                        </div>
+
+                        <div class="report-metrics-grid">
+                            <div class="report-metric">
+                                <span class="label">Total Daily Sales</span>
+                                <h4 id="repDailySales">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Daily Collection</span>
+                                <h4 id="repDailyCollection">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Total Daily Expenses</span>
+                                <h4 id="repDailyExpense" class="text-warning">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Daily Net Profit</span>
+                                <h4 id="repDailyProfit" class="text-success">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Pending Udhar Today</span>
+                                <h4 id="repDailyPending">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Bills Generated Today</span>
+                                <h4 id="repDailyBillCount">0</h4>
+                            </div>
+                        </div>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1.25rem;">
+                            <div>
+                                <h4>Daily Service Income Breakdown</h4>
+                                <div class="service-breakdown-list">
+                                    <div class="breakdown-item">
+                                        <div class="breakdown-info">
+                                            <span class="badge grinding">Grinding</span>
+                                            <span>Grinding Blade Income</span>
+                                        </div>
+                                        <strong id="repDailyGrinding">₹0</strong>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <div class="breakdown-info">
+                                            <span class="badge welding">Welding</span>
+                                            <span>Welding Blade Income</span>
+                                        </div>
+                                        <strong id="repDailyWelding">₹0</strong>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <div class="breakdown-info">
+                                            <span class="badge newblade">New Blade</span>
+                                            <span>New Blade Sales</span>
+                                        </div>
+                                        <strong id="repDailyNewBlade">₹0</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Daily Operating Expenses</h4>
+                                <div class="service-breakdown-list">
+                                    <div class="breakdown-item">
+                                        <div class="breakdown-info">
+                                            <span class="badge welding">Rent</span>
+                                            <span>Shop Rent</span>
+                                        </div>
+                                        <strong id="repDailyRent">₹0</strong>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <div class="breakdown-info">
+                                            <span class="badge grinding">Power</span>
+                                            <span>Electricity Bill</span>
+                                        </div>
+                                        <strong id="repDailyElectricity">₹0</strong>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <div class="breakdown-info">
+                                            <span class="badge newblade">Tools</span>
+                                            <span>Tool Purchases & Other</span>
+                                        </div>
+                                        <strong id="repDailyToolsOther">₹0</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 1.25rem;">Today's Transactions & Bills Log</h4>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time / Date</th>
+                                        <th>Type</th>
+                                        <th>Customer</th>
+                                        <th>Details</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportDailyTableBody">
+                                    <tr>
+                                        <td colspan="5" class="empty-state">No transactions recorded for this date.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 2. Monthly Report Panel -->
+                    <div id="reportMonthly" class="report-panel">
+                        <div class="report-header-flex">
+                            <h3>Monthly Report</h3>
+                            <div class="report-date-selector">
+                                <label for="reportMonthlyMonth">Select Month:</label>
+                                <input type="month" id="reportMonthlyMonth" class="form-control date-picker-sm">
+                            </div>
+                        </div>
+
+                        <div class="report-metrics-grid">
+                            <div class="report-metric">
+                                <span class="label">Total Monthly Sales</span>
+                                <h4 id="repMonthlyRevenue">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Monthly Vendor Expense</span>
+                                <h4 id="repMonthlyExpense" class="text-warning">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Monthly Net Profit</span>
+                                <h4 id="repMonthlyProfit" class="text-success">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Cash Collection</span>
+                                <h4 id="repMonthlyCash">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Online / UPI Collection</span>
+                                <h4 id="repMonthlyOnline">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Total Bills Issued</span>
+                                <h4 id="repMonthlyBillCount">0</h4>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 1.25rem;">Monthly Service Income Breakdown</h4>
+                        <div class="service-breakdown-list">
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge grinding">Grinding</span>
+                                    <span>Grinding Blade Income</span>
+                                </div>
+                                <strong id="repMonthlyGrinding">₹0</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge welding">Welding</span>
+                                    <span>Welding Blade Income</span>
+                                </div>
+                                <strong id="repMonthlyWelding">₹0</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge newblade">New Blade</span>
+                                    <span>New Blade Sales</span>
+                                </div>
+                                <strong id="repMonthlyNewBlade">₹0</strong>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 1.25rem;">Monthly Transactions Log</h4>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Customer</th>
+                                        <th>Details</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportMonthlyTableBody">
+                                    <tr>
+                                        <td colspan="5" class="empty-state">No transactions recorded for this month.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 3. Yearly Report Panel -->
+                    <div id="reportYearly" class="report-panel">
+                        <div class="report-header-flex">
+                            <h3>Yearly Report</h3>
+                            <div class="report-date-selector">
+                                <label for="reportYearlyYear">Select Year:</label>
+                                <select id="reportYearlyYear" class="form-control date-picker-sm">
+                                    <option value="2026">2026</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2024">2024</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="report-metrics-grid">
+                            <div class="report-metric">
+                                <span class="label">Total Annual Sales</span>
+                                <h4 id="repYearlyRevenue">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Annual Vendor Expense</span>
+                                <h4 id="repYearlyExpense" class="text-warning">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Annual Net Profit</span>
+                                <h4 id="repYearlyProfit" class="text-success">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Total Annual Collection</span>
+                                <h4 id="repYearlyCollection">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Total Bills Issued</span>
+                                <h4 id="repYearlyBillCount">0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Total Payments Received</span>
+                                <h4 id="repYearlyPaymentCount">0</h4>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 1.25rem;">Yearly Service Income Breakdown</h4>
+                        <div class="service-breakdown-list">
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge grinding">Grinding</span>
+                                    <span>Grinding Blade Income</span>
+                                </div>
+                                <strong id="repYearlyGrinding">₹0</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge welding">Welding</span>
+                                    <span>Welding Blade Income</span>
+                                </div>
+                                <strong id="repYearlyWelding">₹0</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge newblade">New Blade</span>
+                                    <span>New Blade Sales</span>
+                                </div>
+                                <strong id="repYearlyNewBlade">₹0</strong>
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                            <h4>Yearly Summary Details</h4>
+                            <button class="btn btn-secondary btn-sm" id="btnToggleYearlySummary">
+                                📊 Toggle 12-Month Performance Summary
+                            </button>
+                        </div>
+
+                        <div id="yearlySummaryTableContainer" class="table-responsive hidden"
+                            style="margin-top: 0.75rem;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Billed Revenue</th>
+                                        <th>Vendor Expense</th>
+                                        <th>Net Profit</th>
+                                        <th>Payments Collected</th>
+                                        <th>Bills Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportYearlyTableBody">
+                                    <!-- Injected -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 4. Custom Date Range Panel -->
+                    <div id="reportCustom" class="report-panel">
+                        <div class="report-header-flex">
+                            <h3>Custom Date Range Report</h3>
+                        </div>
+
+                        <div class="report-date-range-bar" style="margin-bottom: 1.25rem;">
+                            <div>
+                                <label for="reportCustomStartDate">From Date:</label>
+                                <input type="date" id="reportCustomStartDate" class="form-control date-picker-sm">
+                            </div>
+                            <div>
+                                <label for="reportCustomEndDate">To Date:</label>
+                                <input type="date" id="reportCustomEndDate" class="form-control date-picker-sm">
+                            </div>
+                            <button class="btn btn-primary btn-sm" id="btnApplyCustomReport">
+                                <span>Apply Filter</span>
+                            </button>
+                        </div>
+
+                        <div class="report-metrics-grid">
+                            <div class="report-metric">
+                                <span class="label">Total Sales Billed</span>
+                                <h4 id="repCustomSales">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Total Vendor Expense</span>
+                                <h4 id="repCustomExpense" class="text-warning">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Net Profit</span>
+                                <h4 id="repCustomProfit" class="text-success">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Total Collection</span>
+                                <h4 id="repCustomCollection">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Cash Collection</span>
+                                <h4 id="repCustomCash">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Online / UPI Collection</span>
+                                <h4 id="repCustomOnline">₹0</h4>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 1.25rem;">Custom Date Transactions Log</h4>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Customer</th>
+                                        <th>Details</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportCustomTableBody">
+                                    <tr>
+                                        <td colspan="5" class="empty-state">Select date range and click Apply Filter.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 5. Customer Report Panel -->
+                    <div id="reportCustomer" class="report-panel">
+                        <div class="report-header-flex">
+                            <h3>Customer Report</h3>
+                        </div>
+
+                        <div class="report-date-range-bar" style="margin-bottom: 1.25rem;">
+                            <div>
+                                <label for="reportCustomerSelect">Select Customer:</label>
+                                <select id="reportCustomerSelect" class="form-control date-picker-sm"
+                                    style="min-width: 180px;">
+                                    <option value="">All Customers</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="reportCustStartDate">From Date:</label>
+                                <input type="date" id="reportCustStartDate" class="form-control date-picker-sm">
+                            </div>
+                            <div>
+                                <label for="reportCustEndDate">To Date:</label>
+                                <input type="date" id="reportCustEndDate" class="form-control date-picker-sm">
+                            </div>
+                            <button class="btn btn-primary btn-sm" id="btnApplyCustomerReport">
+                                <span>Apply Filter</span>
+                            </button>
+                        </div>
+
+                        <div class="report-metrics-grid">
+                            <div class="report-metric">
+                                <span class="label">Customer Billed Sales</span>
+                                <h4 id="repCustSales">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Customer Paid Amount</span>
+                                <h4 id="repCustPaid">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Customer Pending Balance</span>
+                                <h4 id="repCustBalance">₹0</h4>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 1.25rem;">Customer Service Income Breakdown</h4>
+                        <div class="service-breakdown-list">
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge grinding">Grinding</span>
+                                    <span>Grinding Blade Income</span>
+                                </div>
+                                <strong id="repCustGrinding">₹0</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge welding">Welding</span>
+                                    <span>Welding Blade Income</span>
+                                </div>
+                                <strong id="repCustWelding">₹0</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-info">
+                                    <span class="badge newblade">New Blade</span>
+                                    <span>New Blade Sales</span>
+                                </div>
+                                <strong id="repCustNewBlade">₹0</strong>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 1.25rem;">Customer Transactions Statement</h4>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Details</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportCustomerTableBody">
+                                    <tr>
+                                        <td colspan="4" class="empty-state">Select customer and click Apply Filter.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 6. Vendor Report Panel -->
+                    <div id="reportVendor" class="report-panel">
+                        <div class="report-header-flex">
+                            <h3>Vendor & Supplier Report</h3>
+                        </div>
+
+                        <div class="report-date-range-bar" style="margin-bottom: 1.25rem;">
+                            <div>
+                                <label for="reportVendorCategorySelect">Vendor Type:</label>
+                                <select id="reportVendorCategorySelect" class="form-control date-picker-sm"
+                                    style="min-width: 150px;">
+                                    <option value="">All Categories</option>
+                                    <option value="WELDING">Welding Vendor</option>
+                                    <option value="BLADE_SUPPLIER">Blade Supplier</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="reportVendorSelect">Vendor:</label>
+                                <select id="reportVendorSelect" class="form-control date-picker-sm"
+                                    style="min-width: 180px;">
+                                    <option value="">All Vendors</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="reportVendorStartDate">From Date:</label>
+                                <input type="date" id="reportVendorStartDate" class="form-control date-picker-sm">
+                            </div>
+                            <div>
+                                <label for="reportVendorEndDate">To Date:</label>
+                                <input type="date" id="reportVendorEndDate" class="form-control date-picker-sm">
+                            </div>
+                            <button class="btn btn-primary btn-sm" id="btnApplyVendorReport">
+                                <span>Apply Filter</span>
+                            </button>
+                        </div>
+
+                        <div class="report-metrics-grid">
+                            <div class="report-metric">
+                                <span class="label">Total Blades (Welded/Purchased)</span>
+                                <h4 id="repVndBlades">0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Total Expense / Cost</span>
+                                <h4 id="repVndTotalCost">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Amount Paid to Vendor</span>
+                                <h4 id="repVndTotalPaid">₹0</h4>
+                            </div>
+                            <div class="report-metric">
+                                <span class="label">Pending Payable Balance</span>
+                                <h4 id="repVndPending">₹0</h4>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 1.25rem;">Vendor Transactions & Purchase Log</h4>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Vendor Name</th>
+                                        <th>Category</th>
+                                        <th>Details / Notes</th>
+                                        <th>Qty & Rate</th>
+                                        <th>Total Amount</th>
+                                        <th>Paid</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportVendorTableBody">
+                                    <tr>
+                                        <td colspan="8" class="empty-state">Select vendor and click Apply Filter.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL: Add / Edit Customer -->
+    <div id="modalCustomer" class="modal-overlay hidden">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <h3 id="modalCustomerTitle">Add New Customer</h3>
+                <button class="modal-close" data-close="modalCustomer">&times;</button>
+            </div>
+            <form id="customerForm">
+                <input type="hidden" id="custFormId">
+                <div class="input-group">
+                    <label for="custFormName">Customer Name *</label>
+                    <input type="text" id="custFormName" class="form-control" placeholder="e.g. Ramesh Patel" required>
+                </div>
+                <div class="input-group">
+                    <label for="custFormMobile">Mobile Number *</label>
+                    <input type="tel" id="custFormMobile" class="form-control" placeholder="10-digit mobile number"
+                        pattern="[0-9]{10}" required>
+                </div>
+                <div class="input-group">
+                    <label for="custFormAddress">Address / Workshop Location</label>
+                    <input type="text" id="custFormAddress" class="form-control"
+                        placeholder="e.g. Plot 42, Industrial Area">
+                </div>
+                <div class="input-group">
+                    <label for="custFormOpeningBal">Opening Balance (₹)</label>
+                    <input type="number" id="custFormOpeningBal" class="form-control" placeholder="0" value="0">
+                    <small class="form-help">Positive (+) means Udhar (Customer owes you). 0 for new customer.</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="modalCustomer">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Payment Entry -->
+    <div id="modalPayment" class="modal-overlay hidden">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <h3>Record Customer Payment</h3>
+                <button class="modal-close" data-close="modalPayment">&times;</button>
+            </div>
+            <form id="paymentForm">
+                <div class="input-group">
+                    <label for="payCustomerSelect">Customer *</label>
+                    <select id="payCustomerSelect" class="form-control" required>
+                        <option value="">-- Select Customer --</option>
+                    </select>
+                </div>
+                <div class="balance-chip-box hidden" id="payCustBalInfo">
+                    <span>Current Udhar Balance: </span><strong id="payCustCurrentBal">₹0</strong>
+                </div>
+                <div class="input-group">
+                    <label for="payAmount">Payment Amount Received (₹) *</label>
+                    <input type="number" id="payAmount" class="form-control" placeholder="e.g. 500" min="1" required>
+                </div>
+                <div class="input-group">
+                    <label for="payMode">Payment Mode *</label>
+                    <select id="payMode" class="form-control" required>
+                        <option value="Cash">Cash</option>
+                        <option value="UPI">Online / UPI</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="payNotes">Notes / Ref No. (Optional)</label>
+                    <input type="text" id="payNotes" class="form-control" placeholder="e.g. GPay ref 9283...">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="modalPayment">Cancel</button>
+                    <button type="submit" class="btn btn-success">Record Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Bill Success & WhatsApp Share -->
+    <div id="modalBillSuccess" class="modal-overlay hidden">
+        <div class="modal-card glass-panel text-center">
+            <div class="success-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+            <h3 id="successModalTitle">Bill Generated Successfully!</h3>
+            <p id="successBillNumber">BILL-20260725-001</p>
+
+            <div class="whatsapp-preview-box" id="whatsappPreviewText">
+                <!-- Filled dynamically -->
+            </div>
+
+            <div class="modal-actions-stacked">
+                <a id="btnShareWhatsapp" href="#" target="_blank" class="btn btn-whatsapp btn-block">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                    </svg>
+                    <span id="btnShareWhatsappText">Share Bill via WhatsApp</span>
+                </a>
+                <button type="button" class="btn btn-secondary btn-block" id="btnCopyWhatsapp">
+                    <span id="btnCopyWhatsappText">Copy Bill Message</span>
+                </button>
+                <button type="button" class="btn btn-outline btn-block" data-close="modalBillSuccess">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Customer History / Ledger View -->
+    <div id="modalCustHistory" class="modal-overlay hidden">
+        <div class="modal-card glass-panel modal-lg">
+            <div class="modal-header">
+                <h3 id="custHistoryTitle">Customer History</h3>
+                <button class="modal-close" data-close="modalCustHistory">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="cust-info-bar">
+                    <div id="custHistoryMobile">Mobile: -</div>
+                    <div id="custHistoryBalance" class="balance-badge">Balance: ₹0</div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description / ID</th>
+                                <th>Debit (+)</th>
+                                <th>Credit (-)</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="custHistoryTableBody">
+                            <!-- Injected -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Admin Settings & Account Profile -->
+    <div id="modalSettings" class="modal-overlay hidden">
+        <div class="modal-card glass-panel modal-lg">
+            <div class="modal-header">
+                <h3>Admin Settings & Account Profile</h3>
+                <button class="modal-close" data-close="modalSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="adminProfileForm" class="form-card" style="margin-bottom: 20px;">
+                    <h4 class="form-section-title">Owner / Admin Credentials</h4>
+                    <div class="input-group">
+                        <label for="adminFullName">Full Name (Owner Name) *</label>
+                        <input type="text" id="adminFullName" class="form-control"
+                            placeholder="Owner Full Name (e.g. Rajesh Sharma)" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="adminUsername">Username *</label>
+                        <input type="text" id="adminUsername" class="form-control" placeholder="Admin username"
+                            required>
+                    </div>
+                    <div class="input-group">
+                        <label for="adminEmail">Registered Email Address (for OTP Recovery) *</label>
+                        <input type="email" id="adminEmail" class="form-control" placeholder="owner@business.com"
+                            required>
+                        <small class="form-help">Forgot password verification codes will be sent to this email
+                            address.</small>
+                    </div>
+                    <div class="input-group">
+                        <label for="adminNewPassword">New Password (Leave blank to keep unchanged)</label>
+                        <input type="password" id="adminNewPassword" class="form-control"
+                            placeholder="Enter new password if changing" minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="btnSaveAdminProfile">Save Admin Profile</button>
+                </form>
+
+                <form id="apiConfigForm" class="form-card">
+                    <h4 class="form-section-title">Google Apps Script API Integration</h4>
+                    <div class="input-group">
+                        <label for="settingApiUrl">Google Apps Script Web App URL</label>
+                        <input type="url" id="settingApiUrl" class="form-control"
+                            placeholder="https://script.google.com/macros/s/.../exec">
+                        <small class="form-help">Connect your Google Sheet Apps Script deployment URL for online
+                            database sync and automated email OTPs.</small>
+                    </div>
+                    <button type="submit" class="btn btn-secondary" id="btnSaveApiConfig">Save Web App URL</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Add / Edit Vendor -->
+    <div id="modalVendor" class="modal-overlay hidden">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <h3 id="modalVendorTitle">Add Vendor</h3>
+                <button class="modal-close" data-close="modalVendor">&times;</button>
+            </div>
+            <form id="vendorForm">
+                <input type="hidden" id="vndFormId">
+                <div class="input-group">
+                    <label for="vndFormType">Vendor Type *</label>
+                    <select id="vndFormType" class="form-control" required>
+                        <option value="WELDING">Welding Vendor</option>
+                        <option value="BLADE_SUPPLIER">Blade Supplier</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="vndFormName">Vendor / Shop Name *</label>
+                    <input type="text" id="vndFormName" class="form-control"
+                        placeholder="e.g. Ramesh Welding / Mahesh Blade Store" required>
+                </div>
+                <div class="input-group">
+                    <label for="vndFormMobile">Mobile Number *</label>
+                    <input type="tel" id="vndFormMobile" class="form-control" placeholder="10-digit mobile number"
+                        required pattern="[0-9]{10}">
+                </div>
+                <div class="input-group">
+                    <label for="vndFormAddress">Shop Address (Optional)</label>
+                    <input type="text" id="vndFormAddress" class="form-control" placeholder="City / Area">
+                </div>
+                <div class="input-group">
+                    <label for="vndFormNotes">Notes / Payment Terms (Optional)</label>
+                    <input type="text" id="vndFormNotes" class="form-control"
+                        placeholder="e.g. ₹40 per blade, credit terms">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="modalVendor">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveVendor">Save Vendor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Record Vendor Work / Blade Purchase / Payment Settlement -->
+    <div id="modalVendorTxn" class="modal-overlay hidden">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <h3 id="modalVendorTxnTitle">Record Vendor Transaction</h3>
+                <button class="modal-close" data-close="modalVendorTxn">&times;</button>
+            </div>
+            <form id="vendorTxnForm">
+                <div class="input-group">
+                    <label for="vTxnVendorSelect" id="vTxnVendorSelectLabel">Select Vendor *</label>
+                    <select id="vTxnVendorSelect" class="form-control" required>
+                        <option value="">-- Select Vendor --</option>
+                    </select>
+                </div>
+
+                <div id="vTxnBalInfo" class="cust-bal-box hidden" style="margin-bottom: 1rem;">
+                    <span>Current Pending Payable Balance:</span>
+                    <strong id="vTxnCurrentBal" class="text-warning">₹0</strong>
+                </div>
+
+                <div class="input-group">
+                    <label for="vTxnType">Entry Type *</label>
+                    <select id="vTxnType" class="form-control" required>
+                        <option value="WORK" id="optTxnWork">Log Outsourced Welding Job / Blade Purchase</option>
+                        <option value="PAYMENT" id="optTxnPayment">Pay Cash / Settlement to Vendor</option>
+                    </select>
+                </div>
+
+                <div class="form-row" id="rowVTxnItemFields">
+                    <div class="input-group">
+                        <label for="vTxnBlades" id="lblVTxnBlades">Blade Quantity</label>
+                        <input type="number" id="vTxnBlades" class="form-control" placeholder="0" min="0" value="0"
+                            step="any">
+                    </div>
+                    <div class="input-group">
+                        <label for="vTxnRate" id="lblVTxnRate">Rate / Price Per Blade (₹)</label>
+                        <input type="number" id="vTxnRate" class="form-control" placeholder="0" min="0" value="0"
+                            step="any">
+                    </div>
+                    <!-- <div class="input-group">
+                        <label for="vTxnTotalAmount" id="lblVTxnTotalAmount">Total Amount (₹)</label>
+                        <input type="number" id="vTxnTotalAmount" class="form-control" placeholder="0" min="0" value="0" step="any">
+                    </div> -->
+                </div>
+
+                <!-- Total Purchase Amount Auto-Calculation Box -->
+                <div id="vTxnTotalCalcBox" class="calc-row"
+                    style="background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span id="lblVTxnTotalCalc" style="font-weight: 600; color: var(--text-color);">Total Amount:</span>
+                    <strong id="valVTxnTotalCalc" class="text-accent" style="font-size: 1.1rem;">₹0</strong>
+                </div>
+
+                <div class="input-group">
+                    <label for="vTxnAmountPaid">Amount Paid Today (₹)</label>
+                    <input type="number" id="vTxnAmountPaid" class="form-control" placeholder="0" min="0" value="0">
+                </div>
+
+                <div class="input-group">
+                    <label for="vTxnNotes">Notes / Reference</label>
+                    <input type="text" id="vTxnNotes" class="form-control"
+                        placeholder="Purchase details or Payment receipt ref">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="modalVendorTxn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Vendor Ledger & Work History -->
+    <div id="modalVendorHistory" class="modal-overlay hidden">
+        <div class="modal-card glass-panel modal-lg">
+            <div class="modal-header">
+                <div>
+                    <h3 id="vHistoryTitle">Welding Partner Ledger</h3>
+                    <p id="vHistoryMobile" style="font-size:0.85rem; color:var(--text-dim); margin-top:0.2rem;"></p>
+                </div>
+                <button class="modal-close" data-close="modalVendorHistory">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="cust-bal-box" style="margin-bottom: 1rem;">
+                    <strong id="vHistoryBalance" class="text-warning">Pending Payable Balance: ₹0</strong>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Details / Bill Ref</th>
+                                <th>Qty & Rate</th>
+                                <th>Vendor Cost (Debit)</th>
+                                <th>Paid Amount (Credit)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vHistoryTableBody">
+                            <!-- Injected -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Record / Edit Business Expense -->
+    <div id="modalExpense" class="modal-overlay hidden">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <h3 id="modalExpenseTitle">Record Business Expense</h3>
+                <button class="modal-close" data-close="modalExpense">&times;</button>
+            </div>
+            <form id="expenseForm">
+                <input type="hidden" id="expFormId">
+                <div class="input-group">
+                    <label for="expFormDate">Expense Date *</label>
+                    <input type="date" id="expFormDate" class="form-control" required>
+                </div>
+                <div class="input-group">
+                    <label for="expFormCategory">Expense Category *</label>
+                    <select id="expFormCategory" class="form-control" required>
+                        <option value="Shop Rent">Shop Rent</option>
+                        <option value="Electricity Bill">Electricity Bill</option>
+                        <option value="Tool Purchase">Tool Purchase</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="expFormAmount">Expense Amount (₹) *</label>
+                    <input type="number" id="expFormAmount" class="form-control" placeholder="e.g. 1500" min="1"
+                        required>
+                </div>
+                <div class="input-group hidden" id="expFormDescriptionGroup">
+                    <label for="expFormDescription">Description / Details</label>
+                    <input type="text" id="expFormDescription" class="form-control"
+                        placeholder="e.g. Angle Grinder, Office Stationery">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="modalExpense">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveExpense">Save Expense</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Overlay -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/modules/customers.js"></script>
+    <script src="js/modules/vendors.js"></script>
+    <script src="js/modules/expenses.js"></script>
+    <script src="js/modules/billing.js"></script>
+    <script src="js/modules/ledger.js"></script>
+    <script src="js/modules/reports.js"></script>
+    <script src="js/modules/dashboard.js"></script>
+    <script src="js/modules/profitloss.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
