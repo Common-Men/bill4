@@ -167,7 +167,7 @@ class BillingModule {
             if (grindQty > 0) services.push({ name: 'Grinding Blade', qty: grindQty, rate: grindRate, total: grindQty * grindRate });
             if (weldQty > 0) {
                 const vendorId = document.getElementById('billWeldingVendorSelect')?.value || '';
-                const vendorCostRate = Number(document.getElementById('billWeldingCostRate')?.value || 40);
+                const vendorCostRate = Number(document.getElementById('billWeldingCostRate')?.value);
                 const vendorObj = window.vendorsModule?.vendors?.find(v => v.id === vendorId);
                 const vendorName = vendorObj ? vendorObj.name : '';
                 const vendorTotalCost = weldQty * vendorCostRate;
